@@ -1,18 +1,75 @@
+import { useState } from "react";
 import Button from "./components/ui/Button";
 function App() {
-    const programmers = [
+    const [welcomeCount, setWelcomeCount] = useState(10);
+    const [isEven, setIsEven] = useState(true);
+    const [user, setUser] = useState("");
+    const [programmers, setProgrammers] = useState([
         { name: "OT", isProgrammer: true },
         { name: "Ade", isProgrammer: false },
         { name: "Bisi", isProgrammer: false },
         { name: "John", isProgrammer: false },
         { name: "Isreal", isProgrammer: true },
-    ];
+    ]);
+
+    const [programmerName, setProgrammerName] = useState("");
+    const [isProgrammer, setIsProgrammer] = useState(false);
+
+    // let welcomeCount = 0;
+
+    // const increaseWelcomeCount = () => {
+    //     console.log("Before increment , value is ======>>>>>>", welcomeCount);
+    //     welcomeCount += 1;
+    //     console.log("After increment , value is ======>>>>>>", welcomeCount);
+    // };
+
+    const increaseWelcomeCount = () => {
+        const _newValue = welcomeCount + 1;
+        setWelcomeCount(_newValue);
+        setIsEven(_newValue % 2 === 0);
+    };
+    const handleUpdateProgrammers = () => {
+        // setProgrammers([{ name: "OT", isProgrammer: true }]); // rewrites entire array
+        setProgrammers([
+            ...programmers,
+            { name: programmerName, isProgrammer: isProgrammer },
+        ]);
+
+        //RVERT TO DEFAULT STATE
+        setProgrammerName("");
+        setIsProgrammer(false);
+        // const _temp = programmers;
+        // _temp.push({ name: "OTA", isProgrammer: true });
+        // setProgrammers(_temp);
+    };
 
     return (
         <>
-            <h1 onClick={CallMe} style={{ backgroundColor: "red" }}>
-                Hi Welcome to my react App{1 + 1}
+            <h1 style={{ backgroundColor: "red" }}>
+                Hi Welcome {user} , You have clicked the button {welcomeCount}{" "}
+                times
+                {isEven ? "Number is even" : "Number is Odd"}
             </h1>
+            <button onClick={increaseWelcomeCount}>
+                {" "}
+                Click to increase welcome count{" "}
+            </button>
+            <input type="text" onChange={(e) => setUser(e.target.value)} />
+            <input
+                type="text"
+                onChange={(e) => setProgrammerName(e.target.value)}
+                placeholder="new programmer name"
+                value={programmerName}
+            />
+            <input
+                type="checkbox"
+                onChange={(e) => setIsProgrammer(e.target.checked)}
+                checked={isProgrammer}
+            />{" "}
+            Check if is programmer
+            <button onClick={handleUpdateProgrammers}>
+                Update Programmers
+            </button>
             <IntroCard />
             {programmers.map((programmer) => (
                 <InfoCard
