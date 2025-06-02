@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./components/ui/Button";
 function App() {
     const [welcomeCount, setWelcomeCount] = useState(10);
@@ -6,10 +6,6 @@ function App() {
     const [user, setUser] = useState("");
     const [programmers, setProgrammers] = useState([
         { name: "OT", isProgrammer: true },
-        { name: "Ade", isProgrammer: false },
-        { name: "Bisi", isProgrammer: false },
-        { name: "John", isProgrammer: false },
-        { name: "Isreal", isProgrammer: true },
     ]);
 
     const [programmerName, setProgrammerName] = useState("");
@@ -42,6 +38,25 @@ function App() {
         // _temp.push({ name: "OTA", isProgrammer: true });
         // setProgrammers(_temp);
     };
+
+    const populateProgrammerList = () => {
+        setProgrammers([
+            ...programmers,
+            { name: "Ade", isProgrammer: false },
+            { name: "Bisi", isProgrammer: false },
+            { name: "John", isProgrammer: false },
+            { name: "Isreal", isProgrammer: true },
+        ]);
+    };
+
+    useEffect(() => {
+        // const isAsync  = async(){
+        //     await bhdhdjdj
+        // }
+        // await isAsync()
+        console.log("I am useEffect");
+        populateProgrammerList();
+    }, [welcomeCount]);
 
     return (
         <>
