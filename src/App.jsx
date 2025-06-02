@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Button from "./components/ui/Button";
 function App() {
-    const [welcomeCount, setWelcomeCount] = useState(10);
+    // const [welcomeCount, setWelcomeCount] = useState(10);
+    const welcomeCount = useRef(0);
     const [isEven, setIsEven] = useState(true);
     const [user, setUser] = useState("");
     const [programmers, setProgrammers] = useState([
@@ -19,11 +20,11 @@ function App() {
     //     console.log("After increment , value is ======>>>>>>", welcomeCount);
     // };
 
-    const increaseWelcomeCount = () => {
-        const _newValue = welcomeCount + 1;
-        setWelcomeCount(_newValue);
-        setIsEven(_newValue % 2 === 0);
-    };
+    // const increaseWelcomeCount = () => {
+    //     const _newValue = welcomeCount + 1;
+    //     setWelcomeCount(_newValue);
+    //     setIsEven(_newValue % 2 === 0);
+    // };
     const handleUpdateProgrammers = () => {
         // setProgrammers([{ name: "OT", isProgrammer: true }]); // rewrites entire array
         setProgrammers([
@@ -39,14 +40,21 @@ function App() {
         // setProgrammers(_temp);
     };
 
-    const populateProgrammerList = () => {
-        setProgrammers([
-            ...programmers,
-            { name: "Ade", isProgrammer: false },
-            { name: "Bisi", isProgrammer: false },
-            { name: "John", isProgrammer: false },
-            { name: "Isreal", isProgrammer: true },
-        ]);
+    // const populateProgrammerList = () => {
+    //     setProgrammers([
+    //         ...programmers,
+    //         { name: "Ade", isProgrammer: false },
+    //         { name: "Bisi", isProgrammer: false },
+    //         { name: "John", isProgrammer: false },
+    //         { name: "Isreal", isProgrammer: true },
+    //     ]);
+    // };
+
+    const inputElement = useRef();
+
+    const focusInput = () => {
+        inputElement.current.focus();
+        inputElement.current.value = "I am active";
     };
 
     useEffect(() => {
@@ -54,23 +62,28 @@ function App() {
         //     await bhdhdjdj
         // }
         // await isAsync()
+        welcomeCount.current = welcomeCount.current + 1;
         console.log("I am useEffect");
-        populateProgrammerList();
-    }, [welcomeCount]);
+        // populateProgrammerList();
+    }, [user]);
 
     return (
         <>
             <h1 style={{ backgroundColor: "red" }}>
-                Hi Welcome {user} , You have clicked the button {welcomeCount}{" "}
-                times
+                Hi Welcome {user} , You have clicked the button{" "}
+                {welcomeCount.current} times
                 {isEven ? "Number is even" : "Number is Odd"}
             </h1>
-            <button onClick={increaseWelcomeCount}>
+            {/* <button onClick={increaseWelcomeCount}>
                 {" "}
                 Click to increase welcome count{" "}
-            </button>
+            </button> */}
             <input type="text" onChange={(e) => setUser(e.target.value)} />
-            <input
+
+            <input type="text" ref={inputElement} />
+            <button onClick={focusInput}>Focus Input</button>
+
+            {/* <input
                 type="text"
                 onChange={(e) => setProgrammerName(e.target.value)}
                 placeholder="new programmer name"
@@ -95,7 +108,7 @@ function App() {
             <Button colour="yellow" bg="gray">
                 <span>Click Me</span>
             </Button>
-            <Footer year={2025} />
+            <Footer year={2025} /> */}
         </>
     );
 }
