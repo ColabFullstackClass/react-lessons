@@ -1,43 +1,64 @@
-import { useState, useMemo } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Home from "./components/pages/Home";
+import Login from "./components/pages/Login";
+import DashboardLayout from "./components/pages/DashboardLayout";
+import Dashboard from "./components/pages/Dashboard";
+import Settings from "./components/pages/Settings";
+import Profile from "./components/pages/Profile";
+import Friends from "./components/pages/Friends";
+import RouteError from "./components/error/RouteError";
+import ErrorBoundary from "./components/error/ErrorBoundary";
 
 const App = () => {
-    const [count, setCount] = useState(0);
-    const [todos, setTodos] = useState([]);
-    const calculation = useMemo(() => expensiveCalculation(count), [count]);
-
-    const increment = () => {
-        setCount((c) => c + 1);
-    };
-    const addTodo = () => {
-        setTodos((t) => [...t, "New Todo"]);
-    };
-
     return (
-        <div>
-            <div>
-                <h2>My Todos</h2>
-                {todos.map((todo, index) => {
-                    return <p key={index}>{todo}</p>;
-                })}
-                <button onClick={addTodo}>Add Todo</button>
-            </div>
-            <hr />
-            <div>
-                Count: {count}
-                <button onClick={increment}>+</button>
-                <h2>Expensive Calculation</h2>
-                {calculation}
-            </div>
-        </div>
+        <ErrorBoundary>
+            <Router>
+                <Routes>
+                    <Route
+                        path="/"
+                        errorElement={<RouteError />}
+                        element={<Home />}
+                    />
+                    <Route
+                        path="/login"
+                        errorElement={<RouteError />}
+                        element={<Login />}
+                    />
+                    <Route
+                        path="/dashboard"
+                        errorElement={<RouteError />}
+                        element={<DashboardLayout />}
+                    >
+                        <Route
+                            index
+                            errorElement={<RouteError />}
+                            element={<Dashboard />}
+                        />
+                        <Route
+                            path="settings"
+                            errorElement={<RouteError />}
+                            element={<Settings />}
+                        />
+                        <Route
+                            path="profile"
+                            errorElement={<RouteError />}
+                            element={<Profile />}
+                        />
+                        <Route
+                            path="friends"
+                            errorElement={<RouteError />}
+                            element={<Friends />}
+                        />
+                    </Route>
+                    <Route
+                        path="*"
+                        errorElement={<RouteError />}
+                        element={<RouteError />}
+                    />
+                </Routes>
+            </Router>
+        </ErrorBoundary>
     );
-};
-
-const expensiveCalculation = (num) => {
-    console.log("Calculating...");
-    for (let i = 0; i < 1000000000; i++) {
-        num += 1;
-    }
-    return num;
 };
 
 export default App;
