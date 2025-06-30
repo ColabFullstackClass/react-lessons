@@ -8,56 +8,60 @@ import Profile from "./components/pages/Profile";
 import Friends from "./components/pages/Friends";
 import RouteError from "./components/error/RouteError";
 import ErrorBoundary from "./components/error/ErrorBoundary";
+import { Provider } from "react-redux";
+import store from "./components/store/store";
 
 const App = () => {
     return (
-        <ErrorBoundary>
-            <Router>
-                <Routes>
-                    <Route
-                        path="/"
-                        errorElement={<RouteError />}
-                        element={<Home />}
-                    />
-                    <Route
-                        path="/login"
-                        errorElement={<RouteError />}
-                        element={<Login />}
-                    />
-                    <Route
-                        path="/dashboard"
-                        errorElement={<RouteError />}
-                        element={<DashboardLayout />}
-                    >
+        <Provider store={store}>
+            <ErrorBoundary>
+                <Router>
+                    <Routes>
                         <Route
-                            index
+                            path="/"
                             errorElement={<RouteError />}
-                            element={<Dashboard />}
+                            element={<Home />}
                         />
                         <Route
-                            path="settings"
+                            path="/login"
                             errorElement={<RouteError />}
-                            element={<Settings />}
+                            element={<Login />}
                         />
                         <Route
-                            path="profile"
+                            path="/dashboard"
                             errorElement={<RouteError />}
-                            element={<Profile />}
-                        />
+                            element={<DashboardLayout />}
+                        >
+                            <Route
+                                index
+                                errorElement={<RouteError />}
+                                element={<Dashboard />}
+                            />
+                            <Route
+                                path="settings"
+                                errorElement={<RouteError />}
+                                element={<Settings />}
+                            />
+                            <Route
+                                path="profile"
+                                errorElement={<RouteError />}
+                                element={<Profile />}
+                            />
+                            <Route
+                                path="friends"
+                                errorElement={<RouteError />}
+                                element={<Friends />}
+                            />
+                        </Route>
                         <Route
-                            path="friends"
+                            path="*"
                             errorElement={<RouteError />}
-                            element={<Friends />}
+                            element={<RouteError />}
                         />
-                    </Route>
-                    <Route
-                        path="*"
-                        errorElement={<RouteError />}
-                        element={<RouteError />}
-                    />
-                </Routes>
-            </Router>
-        </ErrorBoundary>
+                    </Routes>
+                </Router>
+            </ErrorBoundary>
+        </Provider>
     );
 };
 
