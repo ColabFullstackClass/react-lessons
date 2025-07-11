@@ -10,6 +10,7 @@ import RouteError from "./components/error/RouteError";
 import ErrorBoundary from "./components/error/ErrorBoundary";
 import { Provider } from "react-redux";
 import store from "./components/store/store";
+import DataFetching from "./components/pages/DataFetching";
 
 const App = () => {
     return (
@@ -26,6 +27,11 @@ const App = () => {
                             path="/login"
                             errorElement={<RouteError />}
                             element={<Login />}
+                        />
+                        <Route
+                            path="/datafetching"
+                            errorElement={<RouteError />}
+                            element={<DataFetching />}
                         />
                         <Route
                             path="/dashboard"
