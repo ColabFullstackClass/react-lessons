@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import axios from "axios";
 const DataFetching = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -13,19 +13,29 @@ const DataFetching = () => {
         if (!title && !body) return;
         const _userId = Math.round(Math.random() * 1000);
         try {
-            fetch("https://jsonplaceholder.typicode.com/posts", {
-                method: "POST",
-                body: JSON.stringify({
-                    title: title,
-                    body: body,
-                    userId: _userId,
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            })
-                .then((response) => response.json())
-                .then((json) => console.log(json));
+            // fetch("https://jsonplaceholder.typicode.com/posts", {
+            //     method: "POST",
+            //     body: JSON.stringify({
+            //         title: title,
+            //         body: body,
+            //         userId: _userId,
+            //     }),
+            //     headers: {
+            //         "Content-type": "application/json; charset=UTF-8",
+            //     },
+            // })
+            //     .then((response) => response.json())
+            //     .then((json) => console.log(json));
+            const bodyData = {
+                title: title,
+                body: body,
+                userId: _userId,
+            };
+            const resp = await axios.post(
+                "https://jsonplaceholder.typicode.com/posts",
+                bodyData
+            );
+            console.log("response is ", resp);
             setIsSuccessful(true);
         } catch (error) {
             console.log(error);
@@ -40,10 +50,16 @@ const DataFetching = () => {
         const fetchAllUsers = async () => {
             setLoading(true);
             try {
-                const response = await fetch(
+                // const response = await fetch(
+                //     "https://jsonplaceholder.typicode.com/users"
+                // );
+                // const _data = await response.json();
+                // console.log("data is ------", data);
+                const response = await axios.get(
                     "https://jsonplaceholder.typicode.com/users"
                 );
-                const _data = await response.json();
+                console.log("response is ====>>> ", response);
+                const _data = await response.data;
                 console.log("data is ------", data);
                 if (_data) {
                     setData(_data);
